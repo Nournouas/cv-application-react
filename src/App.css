@@ -74,6 +74,7 @@ input{
     background-color: var(--gray-bg);
     border: 1px solid rgb(193, 193, 193);
     border-radius: 4px;
+    width: 100%;
 }
 
 label{
@@ -86,15 +87,34 @@ form{
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: 100%;
 }
 
-.education-unit:not(:last-child){
+.education-unit:not(:last-child), .experience-unit:not(:last-child){
     border-bottom: 1px solid black;
     padding-bottom: 24px;
 }
 
-.education-unit:not(:first-child){
+.education-unit:not(:first-child), .experience-unit:not(:first-child){
     margin-top: 16px;
+}
+
+.education-unit, .experience-unit{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.unit-buttons-div{
+    display: flex;
+    margin-top: 16px;
+    gap: 32px;
+    width: 100%;
+    align-items: center;
+}
+
+.unit-open{
+    flex-direction: column;
+    align-items: start;
 }
 
 .education-unit h3{
@@ -120,4 +140,99 @@ form{
     grid-column: 2 / span 1;
     grid-row: 1 / span 3;
     background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 32px 40px;
+    max-width: 50vw;
+    overflow: hidden;
+}
+
+.add-unit-button{
+    margin-top: 12px;
+    background-color: var(--nav-bg);
+    color: white;
+    padding: 12px;
+}
+
+.add-unit-button:hover{
+    background-color: rgb(3, 20, 32);
+    cursor: pointer;
+}
+
+.unit-title-container{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hide-button, .reveal-button{
+    cursor: pointer;
+    font-size: 30px;
+    margin: 0;
+    border: 2px solid rgba(136, 136, 136, 0);
+    border-radius: 12px;
+    padding: 0px 10px;
+    line-height: 30px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.hide-button:hover, .reveal-button:hover{
+    cursor: pointer;
+    padding: 0px 10px;
+    background-color: rgba(255, 255, 255, 0);
+    border: 2px solid rgb(215, 215, 215);
+    border-radius: 12px;
+}
+
+.unit-button{
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 1px solid rgb(225, 225, 225);
+    box-shadow: 0px 0px 9px -4px rgba(0,0,0,0.32);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.save{
+    background-color: var(--nav-bg);
+    color: white;
+}
+.cancel{
+    background-color: rgb(224, 224, 224);
+    
+}
+.delete{
+    background-color: rgb(151, 37, 37);
+    color: white;
+}
+
+.save:hover{
+    background-color: rgb(4, 29, 44);
+}
+.cancel:hover{
+    background-color: rgb(200, 200, 200);
+}
+.delete:hover{
+    background-color: rgb(102, 22, 22);
+}
+
+.preview-container h1, .preview-container h3{
+    max-width: 100%;
+    text-align: center;
+}
+
+.preview-container h3{
+    font-size: 16px;
+    font-weight: lighter;
+    
+}
+
+.preview-seperator{
+    width: 100%;
+    padding: 4px;
+    background-color: var(--nav-bg);
+    margin: 12px 0px;
 }

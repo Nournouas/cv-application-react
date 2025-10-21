@@ -10,17 +10,25 @@ export default function EducationUnit({show}){
 
     if (show){
         component = (
-            <div className="education-unit">
-                <h3>University Of Greenwich</h3>
+            <div className="education-unit unit-open">
+                <div className="unit-title-container">
+                    <h3>University Of Greenwich</h3>
+                    <button className="hide-button">-</button>
+                </div>
+                
                 <form>
-                    <CustomInput type={"text"} value={""} label={"Full Name"} for={"full-name"}/>
-                    <CustomInput type={"email"} value={""} label={"Email"} for={"email"}/>
-                    <CustomInput type={"tel"} value={""} label={"Phone Number"} for={"telephone-number"}/>
-                    <CustomInput type={"text"} value={""} label={"Address"} for={"address"}/>
+                    <CustomInput type={"text"} value={""} label={"School"} for={"school"}/>
+                    <CustomInput type={"text"} value={""} label={"Degree"} for={"degree"}/>
+                    <CustomInput type={"text"} value={""} label={"Start Date"} for={"start-date"}/>
+                    <CustomInput type={"text"} value={""} label={"End Date"} for={"end-date"}/>
+                    <CustomInput type={"text"} value={""} label={"Location"} for={"location"}/>
                 </form>
-                <button>Save</button>
-                <button>Cancel</button>
-                <button>Delete</button>
+                <div className="unit-buttons-div">
+                    <button className="unit-button save">Save</button>
+                    <button className="unit-button cancel">Cancel</button>
+                    <button className="unit-button delete">Delete</button>
+                </div>
+                
             </ div>
             
         )

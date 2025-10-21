@@ -7,7 +7,7 @@ export default function Experience(){
             <h2>Experience</h2>
             <ExperienceUnit show={true}/>
             <ExperienceUnit show={false}/>
-            <button>+Add Experience</button>
+            <button className="add-unit-button">+Add Experience</button>
         </div>
     );
 }
