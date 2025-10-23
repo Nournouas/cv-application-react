@@ -2,7 +2,7 @@ import CustomInput from "./CustomInput";
 import { useState } from "react";
 
 //Produces the component for each individual education unit
-function ExperienceUnit({show, onClickExpand, onClickCancel, unit, onClickSave, onClickDelete}){
+function ExperienceUnit({show, onClickExpand, onClickCancel, unit, onClickSave, onClickDelete, onClickChange}){
     //holds an instance of the unit object during hte current session of editing the unit
         const [unitObject , setUnitObject] = useState({
             id: unit.id,
@@ -26,18 +26,25 @@ function ExperienceUnit({show, onClickExpand, onClickCancel, unit, onClickSave, 
         //sets the current unit temp object upon changing the fields
         function handleExperienceChange(propertyName, value){
             setUnitObject({...unitObject, [propertyName] : value});
+            onClickChange({...unitObject, [propertyName] : value});
         };
 
         component = (
             <div className="experience-unit unit-open">
                 <div className="unit-title-container">
                     <h3 
-                        onClick={() => onClickCancel()}
+                        onClick={() => {
+                            onClickCancel()
+                            setUnitObject({...unit});
+                        }}
                         >{unit.position + " | " + unit.name}
                     </h3>
                     <button 
                         className="hide-button" 
-                        onClick={() => onClickCancel()}
+                        onClick={() => {
+                            onClickCancel()
+                            setUnitObject({...unit});
+                        }}
                         >-
                     </button>
                 </div>
@@ -123,7 +130,7 @@ function ExperienceUnit({show, onClickExpand, onClickCancel, unit, onClickSave, 
 
 //The education unit that handles the entire component of education, 
 // including calling the sub components for each education unit
-export default function Experience({experienceUnits, onSave, onDelete, onAdd}){
+export default function Experience({experienceUnits, onSave, onDelete, onAdd, onChange}){
     //state that handles which education unit is being shown
     const [showingID, setShowingID] = useState("");
 
@@ -135,6 +142,7 @@ export default function Experience({experienceUnits, onSave, onDelete, onAdd}){
     //handles hiding the current education unit
     const handleHideUnit = () => {
         setShowingID("");
+        onChange("hide");
     }
 
      const handleNewUnit= () =>{
@@ -189,6 +197,7 @@ export default function Experience({experienceUnits, onSave, onDelete, onAdd}){
                                         onClickCancel={handleHideUnit} 
                                         onClickDelete={onDelete} 
                                         onClickSave={onSave} 
+                                        onClickChange={onChange}
                                         unit={unit}
                                     />
                         }

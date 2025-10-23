@@ -14,31 +14,12 @@ export default function Builder(){
     });
 
     //Education Units state Object > Remembers the state of the education units
-    const [educationunits, setEducationUnits] = useState([{
-        id: "36b8f84d-df4e-4d49-b662-bcde71a8764f",
-        school: "University of Greenwich",
-        degree: "Computer Science",
-        start: "09/2018",
-        end: "07/2021",
-        location: "London, UK"
-    }, {
-        id: "36b8f84d-df4e-4d49-b662-bcewewewe",
-        school: "University of Birmingham",
-        degree: "Clownery",
-        start: "09/2018",
-        end: "07/2021",
-        location: "London, UK"
-    }])
+    const [educationunits, setEducationUnits] = useState([])
 
-    const [experienceUnits, setExperienceUnits] = useState([{
-        id: "36b8f84d-df4e-4d49-b662-bcde7fyrtorr",
-        name: "Fyrtorr",
-        position: "UX UI Designer",
-        start: "04/2022",
-        end: "Present",
-        location: "London, UK",
-        description: "I am a ux designer"
-    }])
+    const [experienceUnits, setExperienceUnits] = useState([])
+
+    const [educationPreview, setEducationPreview] = useState(null);
+    const [experiencePreview, setExperiencePreview] = useState(null);
 
     //handles the personal detail updating and re-renders the component upon change 
     // (gets called when the text gets edited)
@@ -78,8 +59,41 @@ export default function Builder(){
         setExperienceUnits(newExperienceUnits);
     }
 
+    const handleLiveEducationUpdate = (currEducationUnit) => {
+        if (currEducationUnit === "hide"){
+            setEducationPreview("")
+        }else{
+            setEducationPreview({...currEducationUnit})
+        }
+        
+    }
+
+    const handleLiveExperienceUpdate = (currExperienceUnit) => {
+        if (currExperienceUnit === "hide"){
+            setExperiencePreview("")
+        }else{
+            setExperiencePreview({...currExperienceUnit})
+        }
+        
+    }
 
 
+    let previewEducationUnits = [];
+    let previewExperienceUnits = [];
+
+    if (educationPreview === null){
+        previewEducationUnits = educationunits;
+    } else {
+
+        previewEducationUnits = educationunits.map((unit) => unit.id === educationPreview.id ? educationPreview : unit)
+    }
+
+    if (experiencePreview === null){
+        previewExperienceUnits = experienceUnits;
+    } else {
+
+        previewExperienceUnits = experienceUnits.map((unit) => unit.id === experiencePreview.id ? experiencePreview : unit)
+    }
 
     //Personal Info component receives the data from the personal details state and updates 
     //it using props on re-render.
@@ -95,6 +109,7 @@ export default function Builder(){
                 onSave={handleSaveEducation}
                 onAdd={handleAddEducation}
                 onDelete={handleDeleteEducation}
+                onChange={handleLiveEducationUpdate}
                 educationUnits={educationunits} 
             />
 
@@ -102,9 +117,14 @@ export default function Builder(){
                 onSave={handleSaveExperience}
                 onAdd={handleAddExperience}
                 onDelete={handleDeleteExperience}
+                onChange={handleLiveExperienceUpdate}
                 experienceUnits={experienceUnits} 
             />
-            <Preview personal={{...personalDetails}}/>
+            <Preview 
+                personal={{...personalDetails}}
+                education={previewEducationUnits}
+                experience={previewExperienceUnits}
+            />
         </div>
     );
 }

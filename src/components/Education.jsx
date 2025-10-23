@@ -2,7 +2,7 @@ import CustomInput from "./CustomInput";
 import { useState } from "react";
 
 //Produces the component for each individual education unit
-function EducationUnit({show, onClickExpand, onClickCancel, unit, onClickSave, onClickDelete}){
+function EducationUnit({show, onClickExpand, onClickCancel, unit, onClickSave, onClickDelete, onClickChange}){
     //holds an instance of the unit object during hte current session of editing the unit
         const [unitObject , setUnitObject] = useState({
             id: unit.id,
@@ -25,18 +25,25 @@ function EducationUnit({show, onClickExpand, onClickCancel, unit, onClickSave, o
         //sets the current unit temp object upon changing the fields
         function handleEducationChange(propertyName, value){
             setUnitObject({...unitObject, [propertyName] : value});
+            onClickChange({...unitObject, [propertyName] : value});
         };
 
         component = (
             <div className="education-unit unit-open">
                 <div className="unit-title-container">
                     <h3 
-                        onClick={() => onClickCancel()}
+                        onClick={() => {
+                            onClickCancel()
+                            setUnitObject({...unit});
+                        }}
                         >{unit.school + " | " + unit.degree}
                     </h3>
                     <button 
                         className="hide-button" 
-                        onClick={() => onClickCancel()}
+                        onClick={() => {
+                            onClickCancel()
+                            setUnitObject({...unit});
+                        }}
                         >-
                     </button>
                 </div>
@@ -111,7 +118,7 @@ function EducationUnit({show, onClickExpand, onClickCancel, unit, onClickSave, o
 
 //The education unit that handles the entire component of education, 
 // including calling the sub components for each education unit
-export default function Education({educationUnits, onSave, onDelete, onAdd}){
+export default function Education({educationUnits, onSave, onDelete, onAdd, onChange}){
     //state that handles which education unit is being shown
     const [showingID, setShowingID] = useState("");
 
@@ -123,6 +130,7 @@ export default function Education({educationUnits, onSave, onDelete, onAdd}){
     //handles hiding the current education unit
     const handleHideUnit = () => {
         setShowingID("");
+        onChange("hide")
     }
 
      const handleNewUnit= () =>{
@@ -175,7 +183,8 @@ export default function Education({educationUnits, onSave, onDelete, onAdd}){
                                         key={unit.id} 
                                         onClickCancel={handleHideUnit} 
                                         onClickDelete={onDelete} 
-                                        onClickSave={onSave} 
+                                        onClickSave={onSave}
+                                        onClickChange={onChange} 
                                         unit={unit}
                                     />
                         }
