@@ -4,7 +4,7 @@ import Experience from "./Experience";
 import Preview from "./Preview";
 import { useState } from "react";
 
-export default function Builder(){
+export default function Builder({align}){
     //Personal details state object > remembers the state of the personal details
     const [personalDetails, setPersonalDetails] = useState({
         fullName: "", 
@@ -13,11 +13,12 @@ export default function Builder(){
         address: ""
     });
 
-    //Education Units state Object > Remembers the state of the education units
-    const [educationunits, setEducationUnits] = useState([])
+    //States that keep track of the saved education & experience units
+    const [educationunits, setEducationUnits] = useState([]);
+    const [experienceUnits, setExperienceUnits] = useState([]);
 
-    const [experienceUnits, setExperienceUnits] = useState([])
-
+    //States that can hold a temporary version of a single education or experience unit.
+    //The temporary state is useful when displaying live edits that may not be saved
     const [educationPreview, setEducationPreview] = useState(null);
     const [experiencePreview, setExperiencePreview] = useState(null);
 
@@ -27,77 +28,57 @@ export default function Builder(){
         setPersonalDetails({...personalDetails, [propertyName] : value});
     };
 
-    //handles adding an education component and re-renders upon calling saved
-    // the map creates a new array, looping through the array and for each unit checks 
-    // if the id is the same as the id it receives.
+    //handles saving an education component to the state and re-renders upon calling saved
     const handleSaveEducation = (newEducationObj) => {
         const newEducationUnits = educationunits.map((unit) => unit.id === newEducationObj.id ? newEducationObj : unit);
         setEducationUnits(newEducationUnits);
     }
 
-    const handleAddEducation = (newEducationObj) => {
-        setEducationUnits([...educationunits, newEducationObj]);
-    }
+    //handles adding a new education unit to the education list state
+    const handleAddEducation = (newEducationObj) => setEducationUnits([...educationunits, newEducationObj]);
+    
 
+    //handles deleting an education unit from the list state
     const handleDeleteEducation = (deletedID) => {
         const newEducationUnits = educationunits.filter((unit) => unit.id != deletedID);
         setEducationUnits(newEducationUnits);
     }
 
-
+    //handles saving an experience component to the state and re-renders upon calling saved
     const handleSaveExperience = (newExperienceObj) => {
         const newExperienceUnits = experienceUnits.map((unit) => unit.id === newExperienceObj.id ? newExperienceObj : unit);
         setExperienceUnits(newExperienceUnits);
     }
 
-    const handleAddExperience = (newExperienceObj) => {
-        setExperienceUnits([...experienceUnits, newExperienceObj]);
-    }
+    //handles adding a new experience unit to the education list state
+    const handleAddExperience = (newExperienceObj) => setExperienceUnits([...experienceUnits, newExperienceObj]);
+    
 
-    const handleDeleteExperience = (deletedID) => {
+    //handles deleting an experience unit from the list state
+    const handleDeleteExperience = (deletedID) => { 
         const newExperienceUnits = experienceUnits.filter((unit) => unit.id != deletedID);
         setExperienceUnits(newExperienceUnits);
     }
 
+    //If set to hide, clears out the educationpreview state. Otherwise, sets it to the parsed unit
     const handleLiveEducationUpdate = (currEducationUnit) => {
-        if (currEducationUnit === "hide"){
-            setEducationPreview("")
-        }else{
-            setEducationPreview({...currEducationUnit})
-        }
+        currEducationUnit === "hide" ? setEducationPreview("") : setEducationPreview({...currEducationUnit});
         
     }
 
+    //If set to hide, clears out the educationpreview state. Otherwise, sets it to the parsed unit
     const handleLiveExperienceUpdate = (currExperienceUnit) => {
-        if (currExperienceUnit === "hide"){
-            setExperiencePreview("")
-        }else{
-            setExperiencePreview({...currExperienceUnit})
-        }
-        
+        currExperienceUnit === "hide" ? setExperiencePreview("") : setExperiencePreview({...currExperienceUnit});
     }
 
-
+    //These get parsed to the preview components
     let previewEducationUnits = [];
     let previewExperienceUnits = [];
 
-    if (educationPreview === null){
-        previewEducationUnits = educationunits;
-    } else {
+    //Depending on the educationPreview state (either null or an object) update the value of the parameters that get parsed to the preview component.
+    educationPreview === null ? previewEducationUnits = educationunits : previewEducationUnits = educationunits.map((unit) => unit.id === educationPreview.id ? educationPreview : unit)
+    experiencePreview === null ? previewExperienceUnits = experienceUnits : previewExperienceUnits = experienceUnits.map((unit) => unit.id === experiencePreview.id ? experiencePreview : unit)
 
-        previewEducationUnits = educationunits.map((unit) => unit.id === educationPreview.id ? educationPreview : unit)
-    }
-
-    if (experiencePreview === null){
-        previewExperienceUnits = experienceUnits;
-    } else {
-
-        previewExperienceUnits = experienceUnits.map((unit) => unit.id === experiencePreview.id ? experiencePreview : unit)
-    }
-
-    //Personal Info component receives the data from the personal details state and updates 
-    //it using props on re-render.
-    //The education component receives the data from the educationunits state and updates it using props
     return(
         <div className="builder">
             <PersonalInfo 
@@ -121,6 +102,7 @@ export default function Builder(){
                 experienceUnits={experienceUnits} 
             />
             <Preview 
+                align={align}
                 personal={{...personalDetails}}
                 education={previewEducationUnits}
                 experience={previewExperienceUnits}

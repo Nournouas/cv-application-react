@@ -2,7 +2,7 @@ function isOverflown(element) {
   return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
 }
 
-export default function Preview({personal, education, experience}){
+export default function Preview({personal, education, experience, align}){
     try {
         const preview = document.querySelector(".preview-container");
         if (isOverflown(preview)){
@@ -27,9 +27,26 @@ export default function Preview({personal, education, experience}){
     if (education.length > 1){
         seperatorExp = "preview-seperator-thin"
     }
+    let alignementClass = "";
+
+    switch (align){
+        case 0: 
+            alignementClass = "";
+            break;
+        case 1: 
+            alignementClass = "preview-all-center";
+            break;
+        case 2: 
+            alignementClass = "preview-all-left";
+            break;
+        case 3: 
+            alignementClass = "preview-all-right";
+            break;
+    }
+
 
     return(
-        <div className="preview-container">
+        <div className= {`preview-container ${alignementClass}`}>
             <div className="preview-details">
                 <h1 className="preview-fullName">{personal.fullName}</h1>
                 <h3 className="preview-email">{personal.email}</h3>

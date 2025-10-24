@@ -95,7 +95,10 @@ function EducationUnit({show, onClickExpand, onClickCancel, unit, onClickSave, o
 
                     <button 
                         className="unit-button cancel" 
-                        onClick={() => onClickCancel()}
+                        onClick={() => {
+                            onClickCancel()
+                            setUnitObject({...unit});
+                        }}
                         >Cancel
                     </button>
 
