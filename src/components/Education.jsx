@@ -130,7 +130,7 @@ export default function Education({educationUnits, onSave, onDelete, onAdd, onCh
     //handles hiding the current education unit
     const handleHideUnit = () => {
         setShowingID("");
-        onChange("hide")
+        onChange("hide");
     }
 
      const handleNewUnit= () =>{

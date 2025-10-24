@@ -38,9 +38,10 @@ export default function Preview({personal, education, experience}){
                 <div className={seperatorPersonal}></div>
             </div>
             
-            <h2 className="preview-education-title">Education</h2>
+            
             {education.length > 0 ? (
                 <>
+                    <h2 className="preview-education-title">Education</h2>
                     {education.map((unit, index) => {
                         let sepLine = index === education.length - 1 ? null :  <div className={seperatorEdu}></div>;
                         let dateSep = unit.start === "" ? null : "-";
@@ -60,9 +61,10 @@ export default function Preview({personal, education, experience}){
                 </>
             ) : null}
 
-            <h2 className="preview-education-title">Experience</h2>
+            
             {experience.length > 0 ? (
                 <>
+                    <h2 className="preview-education-title">Experience</h2>
                     {experience.map((unit, index) => {
                         let sepLine = index === experience.length - 1 ? null :  <div className={seperatorExp}></div>;
                         let dateSep = unit.start === "" ? null : "-";
